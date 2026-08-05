@@ -1,0 +1,54 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Rooftop Cerámica Italia</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/dashboard.css">
+
+<div class="page dash-page">
+
+  <!-- ===== Login ===== -->
+  <div id="loginScreen" class="card login-card">
+    <h2 class="section-title">Dashboard de registros</h2>
+    <div id="loginError" class="banner banner-error hidden"></div>
+    <div class="field">
+      <label for="passwordInput">Contraseña</label>
+      <input type="password" id="passwordInput" autocomplete="current-password">
+    </div>
+    <button type="button" class="btn-primary" id="loginBtn">Entrar</button>
+  </div>
+
+  <!-- ===== Dashboard ===== -->
+  <div id="dashboardScreen" class="hidden">
+    <div class="dash-header">
+      <div class="dash-event-name">Rooftop · Cerámica Italia</div>
+      <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-tile"><div class="stat-value" id="statTotal">–</div><div class="stat-label">Registros totales</div></div>
+      <div class="stat-tile"><div class="stat-value" id="statConfirmados">–</div><div class="stat-label">Confirmados</div></div>
+      <div class="stat-tile"><div class="stat-value" id="statNoAsisten">–</div><div class="stat-label">No asistirán</div></div>
+      <div class="stat-tile"><div class="stat-value" id="statPct">–</div><div class="stat-label">% confirmación</div></div>
+    </div>
+
+    <div class="toolbar">
+      <h2 class="section-title" style="margin:0;">Listado de asistentes</h2>
+    </div>
+
+    <button type="button" class="btn-secondary" id="exportBtn" style="margin-bottom:16px;">Exportar a CSV</button>
+
+    <div id="listError" class="banner banner-error hidden"></div>
+    <div class="attendee-list" id="attendeeList"></div>
+    <div class="empty-state hidden" id="emptyState">No hay registros todavía.</div>
+
+    <div class="pagination">
+      <button type="button" id="prevBtn">← Anterior</button>
+      <span class="page-info" id="pageInfo"></span>
+      <button type="button" id="nextBtn">Siguiente →</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/dashboard.js"></script>

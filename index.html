@@ -1,0 +1,72 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rooftop con Cerámica Italia</title>
+<meta name="description" content="Confirma tu asistencia al Rooftop con Cerámica Italia — 27 de agosto, Medellín.">
+<link rel="stylesheet" href="css/styles.css">
+
+<div class="wrap">
+  <div class="page">
+
+    <!-- ===== Hero ===== -->
+    <div class="hero" id="heroBlock">
+      <div class="event-name" id="metaName">Rooftop con Cerámica Italia</div>
+      <div class="event-date" id="metaDate"></div>
+      <div class="event-location" id="metaLocation"></div>
+      <svg class="chevron" width="30" height="18" viewBox="0 0 30 18">
+        <polyline points="2,16 15,4 28,16" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+
+    <!-- ===== Formulario RSVP ===== -->
+    <form id="rsvpForm" novalidate>
+      <div id="errorBanner" class="banner banner-error hidden"></div>
+
+      <div class="field">
+        <div class="eyebrow">Confirmación de asistencia</div>
+        <label for="nombre_completo">Nombre completo</label>
+        <input type="text" id="nombre_completo" name="nombre_completo" autocomplete="name" placeholder="Tu nombre" required>
+        <div class="field-error" id="err_nombre_completo"></div>
+      </div>
+
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="tu@correo.com" required>
+        <div class="field-error" id="err_email"></div>
+      </div>
+
+      <div class="field">
+        <label for="telefono">Teléfono <span class="optional-tag">(opcional)</span></label>
+        <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="+57 300 0000000">
+      </div>
+
+      <div class="field">
+        <label>¿Asistirás?</label>
+        <div class="toggle-group" id="confirmacionToggle">
+          <button type="button" class="toggle-btn" data-value="true">Sí</button>
+          <button type="button" class="toggle-btn" data-value="false">No</button>
+        </div>
+        <div class="field-error" id="err_confirmacion"></div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="submitBtn">Confirmar asistencia</button>
+    </form>
+
+    <!-- ===== Pantalla de confirmación ===== -->
+    <div id="confirmationCard" class="confirmation hidden">
+      <div class="divider"></div>
+      <h2 id="confirmationTitle">¡Gracias!</h2>
+      <p id="confirmationMessage"></p>
+
+      <div class="calendar-actions" id="calendarActions">
+        <a class="btn-outline" id="googleCalBtn" target="_blank" rel="noopener">Agregar a Google Calendar</a>
+        <button type="button" class="btn-outline" id="icsBtn">Descargar .ics</button>
+      </div>
+
+      <button type="button" class="btn-link" id="editBtn">Editar respuesta</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
