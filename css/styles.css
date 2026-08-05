@@ -63,11 +63,15 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 4/5;
-  min-height: 468px;
   flex-shrink: 0;
   background: #1a1a1a;
   overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  display: block;
+  padding-bottom: 125%; /* 4:5 ratio = 5/4 = 1.25 */
 }
 
 .hero-img {
