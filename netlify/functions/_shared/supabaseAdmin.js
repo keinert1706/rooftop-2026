@@ -5,8 +5,8 @@ let client = null;
 function getSupabaseAdmin() {
   if (client) return client;
 
-  const url = process.env.SUPABASE2_URL || process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY2 || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.SUPABASE2_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY2;
 
   if (!url || !key) {
     throw new Error('Faltan variables de entorno SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY en Netlify.');
