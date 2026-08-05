@@ -21,6 +21,15 @@
     banner.classList.remove('hidden');
   }
 
+  // ---------- WhatsApp format: 000 000 0000 ----------
+  $('whatsapp').addEventListener('input', (e) => {
+    const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+    let formatted = digits;
+    if (digits.length > 6) formatted = digits.slice(0, 3) + ' ' + digits.slice(3, 6) + ' ' + digits.slice(6);
+    else if (digits.length > 3) formatted = digits.slice(0, 3) + ' ' + digits.slice(3);
+    e.target.value = formatted;
+  });
+
   // ---------- Submit ----------
   const form = $('rsvpForm');
   const submitBtn = $('submitBtn');
