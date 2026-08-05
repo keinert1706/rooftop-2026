@@ -2,22 +2,6 @@
   const CONFIG = window.ROOFTOP_CONFIG;
   const $ = (id) => document.getElementById(id);
 
-  const state = { confirmacion: null };
-
-  $('metaDate').textContent = CONFIG.dateLabel;
-  $('metaLocation').textContent = CONFIG.locationLabel;
-
-  // ---------- Toggle Sí/No ----------
-  const toggleButtons = document.querySelectorAll('#confirmacionToggle .toggle-btn');
-  toggleButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const value = btn.dataset.value === 'true';
-      state.confirmacion = value;
-      toggleButtons.forEach((b) => b.classList.toggle('active', b === btn));
-      setFieldError('confirmacion', '');
-    });
-  });
-
   // ---------- Validation helpers ----------
   function setFieldError(field, message) {
     const el = $(`err_${field}`);
@@ -27,7 +11,7 @@
   }
 
   function clearErrors() {
-    ['nombre_completo', 'email', 'confirmacion'].forEach((f) => setFieldError(f, ''));
+    ['nombre_completo', 'email', 'whatsapp'].forEach((f) => setFieldError(f, ''));
     $('errorBanner').classList.add('hidden');
   }
 
@@ -47,21 +31,14 @@
 
     const nombreCompleto = $('nombre_completo').value.trim();
     const email = $('email').value.trim();
-    const telefono = $('telefono').value.trim();
+    const whatsapp = $('whatsapp').value.trim();
 
     let hasError = false;
     if (!nombreCompleto) { setFieldError('nombre_completo', 'Este campo es obligatorio'); hasError = true; }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setFieldError('email', 'Ingresa un email válido'); hasError = true; }
-    if (state.confirmacion === null) { setFieldError('confirmacion', 'Indica si asistirás'); hasError = true; }
+    if (!whatsapp) { setFieldError('whatsapp', 'Ingresa tu número de WhatsApp'); hasError = true; }
 
     if (hasError) return;
-
-    const payload = {
-      nombre_completo: nombreCompleto,
-      email,
-      telefono: telefono || null,
-      confirmacion: state.confirmacion,
-    };
 
     setLoading(true);
 
@@ -69,12 +46,12 @@
       const res = await fetch('/api/submit-rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ nombre_completo: nombreCompleto, email, whatsapp }),
       });
 
       const data = await res.json().catch(() => ({}));
 
-      if (res.ok) { showConfirmation(payload); return; }
+      if (res.ok) { showConfirmation({ nombre_completo: nombreCompleto, whatsapp }); return; }
 
       if (res.status === 409) {
         showBanner(data.error || 'Este email ya está registrado.');
@@ -93,49 +70,31 @@
 
   function setLoading(isLoading) {
     submitBtn.disabled = isLoading;
-    submitBtn.innerHTML = isLoading ? '<span class="spinner"></span>Enviando…' : 'Confirmar asistencia';
+    submitBtn.innerHTML = isLoading
+      ? '<span class="spinner"></span>Enviando…'
+      : 'Confirmar asistencia';
   }
 
   // ---------- Confirmation ----------
   function showConfirmation(payload) {
-    $('heroBlock').classList.add('hidden');
-    form.classList.add('hidden');
+    $('formSection').classList.add('hidden');
     const card = $('confirmationCard');
     card.classList.remove('hidden');
 
     const firstName = (payload.nombre_completo || '').trim().split(' ')[0] || 'invitado';
-
-    if (payload.confirmacion) {
-      $('confirmationTitle').textContent = `¡Gracias, ${firstName}!`;
-      $('confirmationMessage').textContent = `Tu asistencia al ${CONFIG.eventName} quedó confirmada. Te esperamos el ${CONFIG.dateLabel}.`;
-      $('googleCalBtn').href = buildGoogleCalendarUrl();
-      $('icsBtn').addEventListener('click', downloadICS);
-    } else {
-      $('confirmationTitle').textContent = `Gracias, ${firstName}`;
-      $('confirmationMessage').textContent = 'Gracias por avisarnos que no podrás acompañarnos esta vez.';
-      $('calendarActions').classList.add('hidden');
-    }
+    $('confirmationTitle').textContent = `¡Nos vemos ahí, ${firstName}!`;
+    $('confirmationWhatsapp').textContent = payload.whatsapp;
+    $('icsBtn').addEventListener('click', downloadICS);
   }
 
   $('editBtn').addEventListener('click', () => {
     $('confirmationCard').classList.add('hidden');
-    $('heroBlock').classList.remove('hidden');
-    form.classList.remove('hidden');
+    $('formSection').classList.remove('hidden');
   });
 
+  // ---------- ICS ----------
   function toICSDate(isoString) {
     return new Date(isoString).toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  }
-
-  function buildGoogleCalendarUrl() {
-    const params = new URLSearchParams({
-      action: 'TEMPLATE',
-      text: CONFIG.eventName,
-      dates: `${toICSDate(CONFIG.eventStartISO)}/${toICSDate(CONFIG.eventEndISO)}`,
-      details: CONFIG.tagline,
-      location: CONFIG.calendarLocation,
-    });
-    return `https://calendar.google.com/calendar/render?${params.toString()}`;
   }
 
   function downloadICS() {
@@ -149,8 +108,8 @@
       `DTSTART:${toICSDate(CONFIG.eventStartISO)}`,
       `DTEND:${toICSDate(CONFIG.eventEndISO)}`,
       `SUMMARY:${CONFIG.eventName}`,
-      `DESCRIPTION:${CONFIG.tagline}`,
-      `LOCATION:${CONFIG.calendarLocation}`,
+      `DESCRIPTION:Sitio por confirmar — te avisamos por WhatsApp.`,
+      `LOCATION:Medellín (sitio por confirmar)`,
       'END:VEVENT',
       'END:VCALENDAR',
     ].join('\r\n');

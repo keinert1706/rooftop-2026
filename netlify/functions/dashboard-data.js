@@ -29,12 +29,11 @@ exports.handler = async (event) => {
 
     const { data, error, count } = await supabase
       .from('asistentes')
-      .select('id, nombre_completo, email, telefono, confirmacion, created_at', { count: 'exact' })
+      .select('id, nombre_completo, email, whatsapp, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(from, from + ps - 1);
 
     if (error) return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
-
     return {
       statusCode: 200,
       body: JSON.stringify({ rows: data, total: count, page: p, totalPages: Math.ceil(count / ps) }),
@@ -44,7 +43,7 @@ exports.handler = async (event) => {
   if (action === 'export') {
     const { data, error } = await supabase
       .from('asistentes')
-      .select('nombre_completo, email, telefono, confirmacion, created_at')
+      .select('nombre_completo, email, whatsapp, created_at')
       .order('created_at', { ascending: false })
       .limit(5000);
 

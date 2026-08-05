@@ -49,14 +49,14 @@
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        $('loginError').textContent = data.error || 'No pudimos iniciar sesión.';
+        $('loginError').textContent = data.error || 'Contraseña incorrecta.';
         $('loginError').classList.remove('hidden');
         return;
       }
       setToken(data.token);
       showDashboard();
     } catch {
-      $('loginError').textContent = 'No pudimos conectar con el servidor. Intenta de nuevo.';
+      $('loginError').textContent = 'No pudimos conectar con el servidor.';
       $('loginError').classList.remove('hidden');
     }
   });
@@ -70,10 +70,8 @@
       const stats = await apiGet('stats', {});
       if (!stats) return;
       $('statTotal').textContent = stats.total_registros ?? 0;
-      $('statConfirmados').textContent = stats.total_confirmados ?? 0;
-      $('statNoAsisten').textContent = stats.total_no_asisten ?? 0;
-      const pct = stats.total_registros ? Math.round((stats.total_confirmados / stats.total_registros) * 100) : 0;
-      $('statPct').textContent = `${pct}%`;
+      $('statConfirmados').textContent = stats.total_registros ?? 0;
+      $('statNoAsisten').textContent = 0;
     } catch { /* tiles quedan en "–" */ }
   }
 
@@ -103,18 +101,15 @@
   function renderRow(row) {
     const el = document.createElement('div');
     el.className = 'attendee-row';
-    const badge = row.confirmacion
-      ? '<span class="badge badge-yes">Asiste</span>'
-      : '<span class="badge badge-no">No asiste</span>';
     const meta = [
-      row.telefono ? `Tel: ${row.telefono}` : null,
+      row.whatsapp ? `WhatsApp: ${row.whatsapp}` : null,
       new Date(row.created_at).toLocaleString('es'),
     ].filter(Boolean).map(escapeHtml).join(' · ');
 
     el.innerHTML = `
       <div class="row-top">
         <span class="name">${escapeHtml(row.nombre_completo)}</span>
-        ${badge}
+        <span class="badge badge-yes">Confirmado</span>
       </div>
       <div class="email">${escapeHtml(row.email)}</div>
       <div class="attendee-meta">${meta}</div>
@@ -138,7 +133,7 @@
     try {
       const data = await apiGet('export', {});
       if (!data) return;
-      const headers = ['nombre_completo', 'email', 'telefono', 'confirmacion', 'created_at'];
+      const headers = ['nombre_completo', 'email', 'whatsapp', 'created_at'];
       const csvRows = [headers.join(',')];
       data.rows.forEach((row) => {
         csvRows.push(headers.map((h) => {
@@ -157,6 +152,11 @@
     } catch { alert('No pudimos generar el CSV. Intenta de nuevo.'); }
     finally { btn.textContent = orig; btn.disabled = false; }
   });
+
+  // ---------- Badge styles ----------
+  const style = document.createElement('style');
+  style.textContent = `.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:999px;white-space:nowrap;font-weight:600;letter-spacing:0.02em}.badge-yes{background:rgba(255,0,0,0.1);color:var(--ci-red)}`;
+  document.head.appendChild(style);
 
   if (getToken()) showDashboard();
 })();

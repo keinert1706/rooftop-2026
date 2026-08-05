@@ -1,71 +1,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rooftop con Cerámica Italia</title>
+<title>Rooftop con Cerámica Italia · Medellín</title>
 <meta name="description" content="Confirma tu asistencia al Rooftop con Cerámica Italia — 27 de agosto, Medellín.">
 <link rel="stylesheet" href="css/styles.css">
 
-<div class="wrap">
-  <div class="page">
+<div class="page">
 
-    <!-- ===== Hero ===== -->
-    <div class="hero" id="heroBlock">
-      <div class="event-name" id="metaName">Rooftop con Cerámica Italia</div>
-      <div class="event-date" id="metaDate"></div>
-      <div class="event-location" id="metaLocation"></div>
-      <svg class="chevron" width="30" height="18" viewBox="0 0 30 18">
-        <polyline points="2,16 15,4 28,16" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <!-- Reemplaza .hero-placeholder con <img class="hero-img" src="assets/hero-rooftop.jpg" alt="Rooftop Medellín"> cuando tengas la foto -->
+    <div class="hero-placeholder"></div>
+    <div class="hero-overlay"></div>
+
+    <img src="assets/logo-ceramica-italia-white.svg" class="hero-logo" alt="Cerámica Italia">
+
+    <div class="hero-text">
+      <div class="hero-title">Rooftop<br>Medellín</div>
+      <div class="hero-meta">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        27 de agosto · Sitio por confirmar
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Formulario ===== -->
+  <div class="content" id="formSection">
+
+    <div class="heading-block">
+      <h1>Confirma tu asistencia</h1>
+      <p>Te esperamos para vivir una tarde distinta en las alturas de Medellín. Déjanos tus datos y separamos tu lugar — en cuanto tengamos el sitio confirmado, te avisamos por WhatsApp.</p>
     </div>
 
-    <!-- ===== Formulario RSVP ===== -->
+    <div class="rombo-dots">
+      <div class="rombo-dot" style="opacity:1"></div>
+      <div class="rombo-dot" style="opacity:.75"></div>
+      <div class="rombo-dot" style="opacity:.5"></div>
+      <div class="rombo-dot" style="opacity:.3"></div>
+      <div class="rombo-dot" style="opacity:.15"></div>
+    </div>
+
     <form id="rsvpForm" novalidate>
       <div id="errorBanner" class="banner banner-error hidden"></div>
 
       <div class="field">
-        <div class="eyebrow">Confirmación de asistencia</div>
         <label for="nombre_completo">Nombre completo</label>
         <input type="text" id="nombre_completo" name="nombre_completo" autocomplete="name" placeholder="Tu nombre" required>
         <div class="field-error" id="err_nombre_completo"></div>
       </div>
 
       <div class="field">
-        <label for="email">Correo electrónico</label>
+        <label for="email">Correo</label>
         <input type="email" id="email" name="email" autocomplete="email" placeholder="tu@correo.com" required>
         <div class="field-error" id="err_email"></div>
       </div>
 
       <div class="field">
-        <label for="telefono">Teléfono <span class="optional-tag">(opcional)</span></label>
-        <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="+57 300 0000000">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" placeholder="300 000 0000" required>
+        <div class="field-error" id="err_whatsapp"></div>
       </div>
 
-      <div class="field">
-        <label>¿Asistirás?</label>
-        <div class="toggle-group" id="confirmacionToggle">
-          <button type="button" class="toggle-btn" data-value="true">Sí</button>
-          <button type="button" class="toggle-btn" data-value="false">No</button>
-        </div>
-        <div class="field-error" id="err_confirmacion"></div>
-      </div>
-
-      <button type="submit" class="btn-primary" id="submitBtn">Confirmar asistencia</button>
+      <button type="submit" class="btn-primary" id="submitBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Confirmar asistencia
+      </button>
     </form>
 
-    <!-- ===== Pantalla de confirmación ===== -->
-    <div id="confirmationCard" class="confirmation hidden">
-      <div class="divider"></div>
-      <h2 id="confirmationTitle">¡Gracias!</h2>
-      <p id="confirmationMessage"></p>
+    <p class="note">El lugar del evento se confirmará próximamente y te lo enviaremos por WhatsApp.</p>
 
-      <div class="calendar-actions" id="calendarActions">
-        <a class="btn-outline" id="googleCalBtn" target="_blank" rel="noopener">Agregar a Google Calendar</a>
-        <button type="button" class="btn-outline" id="icsBtn">Descargar .ics</button>
-      </div>
-
-      <button type="button" class="btn-link" id="editBtn">Editar respuesta</button>
+    <div class="footer-logo">
+      <img src="assets/logo-ceramica-italia-black.svg" alt="Cerámica Italia">
     </div>
 
   </div>
+
+  <!-- ===== Confirmación ===== -->
+  <div class="content hidden" id="confirmationCard">
+
+    <div class="confirmation">
+      <div class="confirmation-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+
+      <h2 id="confirmationTitle">¡Nos vemos ahí!</h2>
+
+      <p>Tu asistencia al Rooftop de Medellín quedó confirmada para el 27 de agosto. Te escribiremos al <strong id="confirmationWhatsapp"></strong> apenas tengamos el sitio.</p>
+
+      <div class="rombo-dots" style="justify-content:center;">
+        <div class="rombo-dot" style="opacity:1"></div>
+        <div class="rombo-dot" style="opacity:.75"></div>
+        <div class="rombo-dot" style="opacity:.5"></div>
+        <div class="rombo-dot" style="opacity:.3"></div>
+        <div class="rombo-dot" style="opacity:.15"></div>
+      </div>
+
+      <div class="location-card">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:1px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="location-card-text">
+          <div class="location-card-title">Rooftop · Medellín</div>
+          <div class="location-card-sub">27 de agosto · Sitio por confirmar</div>
+        </div>
+      </div>
+
+      <div class="confirmation-actions">
+        <button type="button" class="btn-outline" id="icsBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Guardar en calendario
+        </button>
+      </div>
+
+      <button type="button" class="btn-link" id="editBtn">Editar mis datos</button>
+    </div>
+
+    <div class="footer-logo">
+      <img src="assets/logo-ceramica-italia-black.svg" alt="Cerámica Italia">
+    </div>
+
+  </div>
+
 </div>
 
 <script src="js/config.js"></script>

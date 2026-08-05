@@ -10,12 +10,12 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'JSON inválido' }) };
   }
 
-  const { nombre_completo, email, telefono, confirmacion } = body;
+  const { nombre_completo, email, whatsapp } = body;
 
   const fields = {};
   if (!nombre_completo?.trim()) fields.nombre_completo = 'Este campo es obligatorio';
   if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fields.email = 'Ingresa un email válido';
-  if (confirmacion === null || confirmacion === undefined) fields.confirmacion = 'Indica si asistirás';
+  if (!whatsapp?.trim()) fields.whatsapp = 'Ingresa tu número de WhatsApp';
 
   if (Object.keys(fields).length) {
     return {
@@ -28,8 +28,7 @@ exports.handler = async (event) => {
   const { error } = await supabase.from('asistentes').insert({
     nombre_completo: nombre_completo.trim(),
     email: email.trim().toLowerCase(),
-    telefono: telefono?.trim() || null,
-    confirmacion: Boolean(confirmacion),
+    whatsapp: whatsapp.trim(),
   });
 
   if (error) {
